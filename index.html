@@ -363,21 +363,38 @@ function gEscolher(s) {
   document.getElementById("gStepLoja").style.display = "";
 }
 
-/* Abre o mapa selecionado dentro da área de trabalho do Portal */
+/* Abre o mapa dentro do Portal e entrega a sessão autenticada por canal seguro. */
 let ecrãAnteriorMapa = "screenGestao";
-function abrir(sistema, modo, loja) {
+async function abrir(sistema, modo, loja) {
   if (!perfil || !SISTEMAS[sistema]) return;
   if (perfil.perfil !== "gestao") { modo = "loja"; loja = perfil.loja; }
-  ecrãAnteriorMapa = perfil.perfil === "gestao" ? "screenGestao" : "screenLoja";
+  if (modo === "loja" && !loja) return;
 
+  const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+  const session = sessionData && sessionData.session;
+  if (sessionError || !session) {
+    msg("A sessão expirou. Entre novamente no Portal.", "err");
+    showScreen("screenLogin");
+    return;
+  }
+
+  ecrãAnteriorMapa = perfil.perfil === "gestao" ? "screenGestao" : "screenLoja";
   const u = new URL(SISTEMAS[sistema].url);
   u.searchParams.set("portal", modo);
-  if (modo === "loja" && loja) u.searchParams.set("loja", loja);
+  if (modo === "loja") u.searchParams.set("loja", loja);
   else u.searchParams.delete("loja");
 
+  const frame = document.getElementById("mapaFrame");
+  frame.onload = () => {
+    frame.contentWindow.postMessage({
+      type: "COOPSINTRA_PORTAL_AUTH",
+      access_token: session.access_token,
+      refresh_token: session.refresh_token
+    }, "https://ewertonrezende-star.github.io");
+  };
   document.getElementById("mapaTitulo").textContent = "COOPSINTRA · " + SISTEMAS[sistema].nome;
-  document.getElementById("mapaFrame").src = u.toString();
   showScreen("screenMapa");
+  frame.src = u.toString();
 }
 
 function voltarDoMapa() {
