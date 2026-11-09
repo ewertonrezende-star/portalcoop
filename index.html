@@ -183,6 +183,16 @@ tbody tr:hover td { background: rgba(31,107,51,.05); }
   body::before, body::after { display: none; }
   .card, .footer-bar, .table-wrap, .topbar { backdrop-filter: none; box-shadow: none; background: #fff; }
 }
+
+/* ---------- Mapas integrados no Portal ---------- */
+#screenMapa { min-height: 100vh; background: #0f2a17; }
+.map-topbar { min-height: 58px; }
+.map-frame-wrap { width: 100%; height: calc(100vh - 58px); min-height: 420px; background: #fff; }
+#mapaFrame { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+@media (max-width: 640px) {
+  .map-frame-wrap { height: calc(100dvh - 58px); min-height: 360px; }
+}
+
 </style>
 </head>
 <body>
@@ -265,14 +275,29 @@ tbody tr:hover td { background: rgba(31,107,51,.05); }
   </div>
 </div>
 
+
+<!-- 4. Área de trabalho: os mapas abrem dentro do Portal -->
+<div id="screenMapa" class="screen">
+  <div class="topbar map-topbar">
+    <h2 id="mapaTitulo">COOPSINTRA · Mapa</h2>
+    <div class="topbar-actions">
+      <button class="btn btn-secondary" onclick="voltarDoMapa()">← Voltar ao Portal</button>
+      <button class="btn btn-secondary" onclick="sair()">Terminar sessão</button>
+    </div>
+  </div>
+  <div class="map-frame-wrap">
+    <iframe id="mapaFrame" title="Sistema de mapas COOPSINTRA" allow="clipboard-read; clipboard-write; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
 <script>
 /* Projeto Supabase partilhado com os dois sistemas (chave pública) */
 const SUPABASE_URL = "https://uacadlvvonvriiqdxdfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_pBZHhN4Faqfr70_2FXqezg_UsqWu9JX";
 const DOMINIO_UTILIZADOR = "coopsintra.local";
 const SISTEMAS = {
-  geral:   { nome: "Mapa Geral", url: "https://ewertonrezende-star.github.io/Mapa-Geral/" },
-  cereais: { nome: "Mapa Cereais e Rações", url: "https://ewertonrezende-star.github.io/coopsintra/" }
+  geral:   { nome: "Mapa Geral", url: "https://ewertonrezende-star.github.io/Mapa-Geral/?id=420c725430cd" },
+  cereais: { nome: "Mapa Cereais e Rações", url: "https://ewertonrezende-star.github.io/coopsintra/?mapa=7b1d9d347e04" }
 };
 const LOJAS = { AL: "Albarraque", AM: "Arneiro Marinheiro", CO: "Colares", MM: "Mem Martins", LC: "Sintra", SA: "Sabugo" };
 
@@ -338,14 +363,26 @@ function gEscolher(s) {
   document.getElementById("gStepLoja").style.display = "";
 }
 
-/* Abre o sistema; o próprio sistema volta a validar a sessão e o perfil */
+/* Abre o mapa selecionado dentro da área de trabalho do Portal */
+let ecrãAnteriorMapa = "screenGestao";
 function abrir(sistema, modo, loja) {
-  if (!perfil) return;
+  if (!perfil || !SISTEMAS[sistema]) return;
   if (perfil.perfil !== "gestao") { modo = "loja"; loja = perfil.loja; }
+  ecrãAnteriorMapa = perfil.perfil === "gestao" ? "screenGestao" : "screenLoja";
+
   const u = new URL(SISTEMAS[sistema].url);
   u.searchParams.set("portal", modo);
-  if (modo === "loja") u.searchParams.set("loja", loja);
-  location.href = u.toString();
+  if (modo === "loja" && loja) u.searchParams.set("loja", loja);
+  else u.searchParams.delete("loja");
+
+  document.getElementById("mapaTitulo").textContent = "COOPSINTRA · " + SISTEMAS[sistema].nome;
+  document.getElementById("mapaFrame").src = u.toString();
+  showScreen("screenMapa");
+}
+
+function voltarDoMapa() {
+  document.getElementById("mapaFrame").src = "about:blank";
+  showScreen(ecrãAnteriorMapa || (perfil && perfil.perfil === "gestao" ? "screenGestao" : "screenLoja"));
 }
 
 sb.auth.onAuthStateChange((ev) => { if (ev === "SIGNED_OUT") showScreen("screenLogin"); });
