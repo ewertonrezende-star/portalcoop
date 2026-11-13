@@ -407,7 +407,7 @@ function voltarDoMapa() {
 /* Gerar Encomenda — apenas Gestão (módulo externo) */
 function abrirEncomenda() {
   if (!perfil || perfil.perfil !== "gestao") return;
-  window.location.href = "https://ewertonrezende-star.github.io/gerar-encomenda/";
+  window.location.href = "https://ewertonrezende-star.github.io/gerar-encomenda/?origem=central";
 }
 
 sb.auth.onAuthStateChange((ev) => { if (ev === "SIGNED_OUT") showScreen("screenLogin"); });
