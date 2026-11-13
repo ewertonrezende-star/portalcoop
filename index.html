@@ -323,7 +323,7 @@ async function carregarPerfil() {
   if (error || !data) { await sb.auth.signOut(); showScreen("screenLogin"); msg("Utilizador sem perfil atribuído. Contacte a Gestão.", "err"); return; }
   perfil = data;
   const nome = data.nome || user.email.split("@")[0];
-  const nomeNormalizado = String(nome).normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase().trim();
+  const nomeNormalizado = String(nome).toLowerCase().trim();
   const podeGerarEncomenda = nomeNormalizado.startsWith("nuno") || nomeNormalizado.startsWith("ewerton");
   const tileEncomenda = document.getElementById("tileGerarEncomenda");
   if (tileEncomenda) tileEncomenda.style.display = podeGerarEncomenda ? "" : "none";
@@ -411,7 +411,7 @@ function voltarDoMapa() {
 /* Gerar Encomenda — apenas Gestão (módulo externo) */
 function abrirEncomenda() {
   if (!perfil || perfil.perfil !== "gestao") return;
-  const nome = String(perfil.nome || "").normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase().trim();
+  const nome = String(perfil.nome || "").toLowerCase().trim();
   if (!nome.startsWith("nuno") && !nome.startsWith("ewerton")) return;
   window.location.href = "https://ewertonrezende-star.github.io/gerar-encomenda/?origem=central";
 }
