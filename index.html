@@ -43,19 +43,47 @@ input[type="text"], input[type="password"] { width: 100%; padding: 11px 12px; fo
 .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .step { font-size: 12px; color: rgba(255,255,255,.7); padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); }
 .step.on { color: #fff; border-color: #c9a24a; background: rgba(201,162,74,.2); }
-.grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.nav-hover-group { display: grid; gap: 8px; min-width: 0; }
-.nav-hover-submenu { display: none; grid-template-columns: 1fr; gap: 8px; padding-left: 50px; }
+/* Navegação vertical compacta — aplicada à gestão, lojas e seleção de lojas */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; width: 100%; max-width: 760px; }
+.tile {
+  width: 100%; min-width: 0; min-height: 58px; padding: 10px 13px !important;
+  text-align: left; cursor: pointer; font-family: inherit; display: flex;
+  gap: 10px; align-items: center; border-radius: 12px;
+}
+.tile .ico {
+  flex: 0 0 30px; width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(31,107,51,.12); color: #1f6b33;
+}
+.tile .ico svg { width: 17px; height: 17px; }
+.tile h4 { margin: 0 0 2px; font-size: 13px; line-height: 1.25; }
+.tile p { font-size: 11px; line-height: 1.35; color: #5a6b5e; }
+.nav-hover-group { display: grid; gap: 5px; min-width: 0; }
+.nav-hover-submenu {
+  display: none; grid-template-columns: minmax(0, 1fr); gap: 5px;
+  margin: 0 0 3px 39px; padding: 6px 0 6px 10px;
+  border-left: 2px solid rgba(31,107,51,.22);
+}
 .nav-hover-group:hover .nav-hover-submenu,
 .nav-hover-group:focus-within .nav-hover-submenu { display: grid; }
-.nav-hover-submenu .tile { width: 100%; }
+.nav-hover-submenu .tile {
+  min-height: 46px; padding: 7px 10px !important;
+  background: rgba(255,255,255,.62); border: 1px solid rgba(31,107,51,.12);
+  box-shadow: none; border-radius: 9px; gap: 9px;
+}
+.nav-hover-submenu .tile .ico { flex-basis: 27px; width: 27px; height: 27px; }
+.nav-hover-submenu .tile .ico svg { width: 16px; height: 16px; }
+.nav-hover-submenu .tile h4 { font-size: 12px; }
+.nav-hover-submenu .tile p { font-size: 10px; }
+.nav-hover-submenu .tile:hover { transform: translateX(2px); box-shadow: 0 3px 10px rgba(8,30,14,.10); }
+@media (max-width: 640px) {
+  .grid { gap: 7px; }
+  .tile { min-height: 54px; padding: 9px 11px !important; }
+  .nav-hover-submenu { margin-left: 30px; }
+}
 @media (hover: none) {
   .nav-hover-submenu { display: none; }
 }
-.tile { text-align: left; cursor: pointer; font-family: inherit; display: flex; gap: 12px; align-items: flex-start; }
-.tile .ico { flex: 0 0 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(31,107,51,.12); color: #1f6b33; }
-.tile h4 { margin-bottom: 3px; }
-.tile p { font-size: 12px; color: #5a6b5e; }
 .section-title { color: #fff; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin: 18px 0 10px; opacity: .9; }
 .back { margin-top: 16px; }
 
