@@ -43,120 +43,134 @@ input[type="text"], input[type="password"] { width: 100%; padding: 11px 12px; fo
 .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .step { font-size: 12px; color: rgba(255,255,255,.7); padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); }
 .step.on { color: #fff; border-color: #c9a24a; background: rgba(201,162,74,.2); }
-/* Navegação hierárquica — estilo lista expansível (ícones pequenos) */
-.grid {
-  display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px;
-  width: 100%; max-width: 420px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(255,255,255,.55);
-  border-radius: 16px;
-  padding: 8px;
-  box-shadow: 0 10px 34px rgba(8,30,14,.22);
-  backdrop-filter: blur(16px) saturate(140%);
+/* ── Menu vidro com painel lateral ── */
+.nav-shell {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  max-width: 560px;
+  min-height: 200px;
 }
 
-/* Item simples (sem filhos) */
-.tile {
-  width: 100%; min-width: 0; min-height: 42px; padding: 9px 12px !important;
+/* Painel principal (vidro) */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 220px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 8px 32px rgba(8,30,14,.16);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  transition: border-radius .3s ease;
+}
+.nav-shell.has-panel .grid {
+  border-radius: 16px 0 0 16px;
+  border-right: 1px solid rgba(255,255,255,.2);
+}
+
+/* Item / trigger */
+.tile, .nav-group-trigger {
+  width: 100%; min-width: 0; min-height: 40px; padding: 9px 11px !important;
   text-align: left; cursor: pointer; font-family: inherit; display: flex;
   gap: 10px; align-items: center; border-radius: 10px;
   border: none; background: transparent;
   transition: background .15s ease, color .15s ease;
 }
-.tile .ico {
-  flex: 0 0 22px; width: 22px; height: 22px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  background: transparent; color: #1f6b33;
-}
-.tile .ico svg { width: 16px; height: 16px; }
-.tile h4 { margin: 0; font-size: 13px; line-height: 1.3; font-weight: 500; color: #17241a; }
-.tile p { display: none; }
-.tile:hover { background: rgba(31,107,51,.08); }
-.tile:hover .ico { color: #154d24; }
-
-/* Grupo expansível */
-.nav-group {
-  display: grid; gap: 0; min-width: 0;
-  border-radius: 10px;
-  overflow: hidden;
-}
-.nav-group-trigger {
-  width: 100%; min-height: 42px; padding: 9px 12px !important;
-  text-align: left; cursor: pointer; font-family: inherit; display: flex;
-  gap: 10px; align-items: center; border: none; background: transparent;
-  border-radius: 10px; color: inherit;
-  transition: background .15s ease;
-}
-.nav-group-trigger:hover { background: rgba(31,107,51,.08); }
-.nav-group.open .nav-group-trigger {
-  background: rgba(31,107,51,.1);
-}
-.nav-group-trigger .ico {
-  flex: 0 0 22px; width: 22px; height: 22px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  background: transparent; color: #1f6b33;
-}
-.nav-group-trigger .ico svg { width: 16px; height: 16px; }
-.nav-group-trigger .txt { flex: 1; min-width: 0; }
-.nav-group-trigger h4 { margin: 0; font-size: 13px; font-weight: 500; color: #17241a; }
-.nav-group-trigger p { display: none; }
-.nav-group-chevron {
+.tile .ico, .nav-group-trigger .ico {
   flex: 0 0 20px; width: 20px; height: 20px;
   display: flex; align-items: center; justify-content: center;
-  color: #5a6b5e;
-  transition: transform .25s cubic-bezier(.4,0,.2,1);
+  color: #1f6b33;
 }
-.nav-group.open .nav-group-chevron { transform: rotate(90deg); color: #1f6b33; }
-.nav-group-chevron svg { width: 14px; height: 14px; }
+.tile .ico svg, .nav-group-trigger .ico svg { width: 15px; height: 15px; }
+.tile h4, .nav-group-trigger h4 {
+  margin: 0; font-size: 13px; line-height: 1.3; font-weight: 500; color: #17241a;
+}
+.tile p, .nav-group-trigger p { display: none; }
+.tile:hover, .nav-group-trigger:hover { background: rgba(255,255,255,.35); }
+.nav-group-trigger.active {
+  background: rgba(255,255,255,.45);
+  box-shadow: 0 1px 4px rgba(8,30,14,.08);
+}
+.nav-group-trigger .txt { flex: 1; min-width: 0; }
+.nav-group-chevron {
+  flex: 0 0 16px; width: 16px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: #5a6b5e; opacity: .7;
+  transition: transform .25s ease, color .2s ease;
+}
+.nav-group-trigger.active .nav-group-chevron { color: #1f6b33; opacity: 1; }
+.nav-group-chevron svg { width: 13px; height: 13px; }
 
-/* Submenu */
-.nav-submenu {
-  display: grid; grid-template-rows: 0fr;
-  transition: grid-template-rows .28s cubic-bezier(.4,0,.2,1);
+/* Painel lateral (desliza da direita) */
+.nav-side {
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.4);
+  border-left: none;
+  border-radius: 0 16px 16px 0;
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: 0 8px 32px rgba(8,30,14,.14);
+  transition: width .32s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .32s ease;
+  padding: 0;
+  display: flex; flex-direction: column; gap: 2px;
 }
-.nav-group.open .nav-submenu { grid-template-rows: 1fr; }
-.nav-submenu-inner {
-  overflow: hidden; min-height: 0;
-  display: grid; gap: 1px;
-  padding: 0 0 4px 0;
-  margin-left: 16px;
-  border-left: 2px solid rgba(31,107,51,.15);
+.nav-shell.has-panel .nav-side {
+  width: 240px;
+  opacity: 1;
+  padding: 8px;
 }
 
-.nav-submenu .tile {
-  min-height: 36px; padding: 7px 12px 7px 14px !important;
-  border-radius: 8px; gap: 9px;
-  opacity: 0; transform: translateY(-4px);
-  transition: opacity .2s ease, transform .2s ease, background .15s ease;
+.nav-side .side-title {
+  font-size: 11px; font-weight: 600; letter-spacing: .6px;
+  text-transform: uppercase; color: rgba(23,36,26,.55);
+  padding: 6px 11px 8px; margin: 0;
 }
-.nav-group.open .nav-submenu .tile {
-  opacity: 1; transform: translateY(0);
+.nav-side .tile {
+  min-height: 38px; opacity: 0; transform: translateX(12px);
+  transition: opacity .22s ease, transform .22s ease, background .15s ease;
 }
-.nav-group.open .nav-submenu .tile:nth-child(1) { transition-delay: .03s; }
-.nav-group.open .nav-submenu .tile:nth-child(2) { transition-delay: .06s; }
-.nav-group.open .nav-submenu .tile:nth-child(3) { transition-delay: .09s; }
-.nav-submenu .tile .ico {
-  flex-basis: 18px; width: 18px; height: 18px;
-  color: #5a6b5e;
+.nav-shell.has-panel .nav-side .tile {
+  opacity: 1; transform: translateX(0);
 }
-.nav-submenu .tile .ico svg { width: 14px; height: 14px; }
-.nav-submenu .tile h4 { font-size: 12.5px; font-weight: 450; color: #2a3a2e; }
-.nav-submenu .tile:hover {
-  background: rgba(31,107,51,.08);
-}
-.nav-submenu .tile:hover .ico { color: #1f6b33; }
-.nav-submenu .tile:hover h4 { color: #17241a; }
+.nav-shell.has-panel .nav-side .tile:nth-child(2) { transition-delay: .04s; }
+.nav-shell.has-panel .nav-side .tile:nth-child(3) { transition-delay: .08s; }
+.nav-shell.has-panel .nav-side .tile:nth-child(4) { transition-delay: .12s; }
+.nav-side .tile .ico { color: #5a6b5e; }
+.nav-side .tile:hover .ico { color: #1f6b33; }
+.nav-side .tile h4 { font-size: 12.5px; color: #2a3a2e; }
+.nav-side .tile:hover h4 { color: #17241a; }
 
-/* Separador visual opcional entre grupos */
 .nav-sep {
-  height: 1px; margin: 4px 8px;
-  background: rgba(31,107,51,.1);
+  height: 1px; margin: 4px 6px;
+  background: rgba(31,107,51,.12);
 }
+
+/* Esconde o submenu antigo (não usado) */
+.nav-group { display: contents; }
+.nav-submenu { display: none !important; }
 
 @media (max-width: 640px) {
-  .grid { max-width: 100%; gap: 2px; padding: 6px; }
-  .tile, .nav-group-trigger { min-height: 44px; }
-  .nav-submenu .tile { min-height: 40px; }
+  .nav-shell { flex-direction: column; max-width: 100%; }
+  .grid { width: 100%; border-radius: 16px !important; border-right: 1px solid rgba(255,255,255,.35) !important; }
+  .nav-shell.has-panel .grid { border-radius: 16px 16px 0 0 !important; }
+  .nav-side {
+    width: 100% !important; max-height: 0; border-radius: 0 0 16px 16px !important;
+    border-left: 1px solid rgba(255,255,255,.35); border-top: none;
+  }
+  .nav-shell.has-panel .nav-side {
+    max-height: 280px; width: 100% !important;
+  }
+  .nav-side .tile { transform: translateY(8px); }
+  .nav-shell.has-panel .nav-side .tile { transform: translateY(0); }
 }
 .section-title { color: #fff; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin: 18px 0 10px; opacity: .9; }
 .back { margin-top: 16px; }
@@ -344,59 +358,47 @@ tbody tr:hover td { background: rgba(31,107,51,.05); }
 
     <div id="gStepSistema">
       <div class="section-title">Selecionar sistema</div>
-      <div class="grid">
-        <!-- Grupo Central / Compras -->
-        <div class="nav-group" id="navGroupCentral">
-          <button type="button" class="nav-group-trigger" onclick="toggleNavGroup('navGroupCentral')" aria-expanded="false" aria-controls="submenuCentral">
+      <div class="nav-shell" id="navShellSistema">
+        <div class="grid" id="navMainSistema">
+          <button type="button" class="nav-group-trigger" data-panel="central" onclick="openSidePanel('central', this)">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
             <span class="txt"><h4>Central / Compras</h4></span>
-            <span class="nav-group-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            <span class="nav-group-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
           </button>
-          <div class="nav-submenu" id="submenuCentral">
-            <div class="nav-submenu-inner">
-              <button class="tile" onclick="abrir('geral','central')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span><h4>Mapa Geral</h4></span></button>
-              <button class="tile" onclick="abrir('cereais','central')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/></svg></span><span><h4>Mapa Cereais</h4></span></button>
-              <button class="tile" id="tileGerarEncomendaHover" onclick="abrirEncomenda()"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span><h4>Gerar Encomenda</h4></span></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="nav-sep"></div>
-
-        <!-- Grupo Mapas por loja -->
-        <div class="nav-group" id="navGroupMapas">
-          <button type="button" class="nav-group-trigger" onclick="toggleNavGroup('navGroupMapas')" aria-expanded="false" aria-controls="submenuMapas">
+          <button type="button" class="nav-group-trigger" data-panel="mapas" onclick="openSidePanel('mapas', this)">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span>
             <span class="txt"><h4>Mapas por loja</h4></span>
-            <span class="nav-group-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            <span class="nav-group-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
           </button>
-          <div class="nav-submenu" id="submenuMapas">
-            <div class="nav-submenu-inner">
-              <button class="tile" onclick="gEscolher('geral')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span><h4>Mapa Geral</h4></span></button>
-              <button class="tile" onclick="gEscolher('cereais')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/></svg></span><span><h4>Mapa Cereais e Rações</h4></span></button>
-            </div>
-          </div>
+          <div class="nav-sep"></div>
+          <button class="tile" onclick="abrirEmail(); closeSidePanel();">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span><h4>E-mail COOPSINTRA</h4></span>
+          </button>
         </div>
-
-        <div class="nav-sep"></div>
-
-        <button class="tile" onclick="abrirEmail()"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span><h4>E-mail COOPSINTRA</h4></span></button>
+        <div class="nav-side" id="navSideSistema" aria-live="polite">
+          <!-- preenchido via JS -->
+        </div>
       </div>
     </div>
 
     <div id="gStepCentral" style="display:none">
       <div class="section-title">Central — escolher o mapa</div>
-      <div class="grid">
-        <button class="tile" onclick="abrir('geral','central')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span><h4>Central do Mapa Geral</h4></span></button>
-        <button class="tile" onclick="abrir('cereais','central')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/></svg></span><span><h4>Central do Mapa Cereais</h4></span></button>
-        <button class="tile" id="tileGerarEncomenda" onclick="abrirEncomenda()"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span><h4>Gerar Encomenda</h4></span></button>
+      <div class="nav-shell">
+        <div class="grid" style="width:260px">
+          <button class="tile" onclick="abrir('geral','central')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span><h4>Central do Mapa Geral</h4></span></button>
+          <button class="tile" onclick="abrir('cereais','central')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/></svg></span><span><h4>Central do Mapa Cereais</h4></span></button>
+          <button class="tile" id="tileGerarEncomenda" onclick="abrirEncomenda()"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span><h4>Gerar Encomenda</h4></span></button>
+        </div>
       </div>
       <button class="btn btn-secondary back" onclick="gVoltar()">← Voltar</button>
     </div>
 
     <div id="gStepLoja" style="display:none">
       <div class="section-title" id="gLojaTitulo">Selecionar loja</div>
-      <div class="grid" id="gLojas"></div>
+      <div class="nav-shell">
+        <div class="grid" id="gLojas" style="width:260px"></div>
+      </div>
       <button class="btn btn-secondary back" onclick="gVoltar()">← Voltar</button>
     </div>
   </div>
@@ -411,11 +413,13 @@ tbody tr:hover td { background: rgba(31,107,51,.05); }
   <div class="portal-wrap">
     <div class="hello"><span class="badge">LOJA</span><h1>Área da Loja</h1><p id="lojaSub">Sessão autenticada</p></div>
     <div class="section-title">Selecionar mapa</div>
-    <div class="grid">
-      <button class="tile" onclick="abrir('geral','loja')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span><h4>Mapa Geral</h4></span></button>
-      <button class="tile" onclick="abrir('cereais','loja')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/></svg></span><span><h4>Mapa Cereais e Rações</h4></span></button>
-      <div class="nav-sep"></div>
-      <button class="tile" onclick="abrirEmail()"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span><h4>E-mail COOPSINTRA</h4></span></button>
+    <div class="nav-shell">
+      <div class="grid" style="width:260px">
+        <button class="tile" onclick="abrir('geral','loja')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span><h4>Mapa Geral</h4></span></button>
+        <button class="tile" onclick="abrir('cereais','loja')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/></svg></span><span><h4>Mapa Cereais e Rações</h4></span></button>
+        <div class="nav-sep"></div>
+        <button class="tile" onclick="abrirEmail()"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span><h4>E-mail COOPSINTRA</h4></span></button>
+      </div>
     </div>
     <p class="foot">A loja só acede aos seus próprios dados.</p>
   </div>
@@ -502,13 +506,52 @@ function abrirEmail() {
   window.open("https://mail.coopsintra.pt/", "_blank", "noopener,noreferrer");
 }
 
-/* Toggle accordion do menu Central */
-function toggleNavGroup(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const open = el.classList.toggle("open");
-  const btn = el.querySelector(".nav-group-trigger");
-  if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+/* Painel lateral deslizante (vidro) */
+const SIDE_PANELS = {
+  central: {
+    title: "Central / Compras",
+    items: [
+      { label: "Mapa Geral", icon: '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>', action: "abrir('geral','central')" },
+      { label: "Mapa Cereais", icon: '<path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/>', action: "abrir('cereais','central')" },
+      { label: "Gerar Encomenda", icon: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>', action: "abrirEncomenda()" }
+    ]
+  },
+  mapas: {
+    title: "Mapas por loja",
+    items: [
+      { label: "Mapa Geral", icon: '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>', action: "gEscolher('geral')" },
+      { label: "Mapa Cereais e Rações", icon: '<path d="M12 3c-3 4-3 8 0 18M12 3c3 4 3 8 0 18M7 8c2 1 3 2 5 2s3-1 5-2"/>', action: "gEscolher('cereais')" }
+    ]
+  }
+};
+
+function openSidePanel(key, btn) {
+  const shell = document.getElementById("navShellSistema");
+  const side = document.getElementById("navSideSistema");
+  if (!shell || !side) return;
+  if (btn.classList.contains("active") && shell.classList.contains("has-panel")) {
+    closeSidePanel();
+    return;
+  }
+  shell.querySelectorAll(".nav-group-trigger").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  const data = SIDE_PANELS[key];
+  if (!data) return;
+  side.innerHTML = '<p class="side-title">' + data.title + '</p>' +
+    data.items.map(it =>
+      '<button class="tile" onclick="' + it.action + '; closeSidePanel();">' +
+      '<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + it.icon + '</svg></span>' +
+      '<span><h4>' + it.label + '</h4></span></button>'
+    ).join("");
+  void side.offsetWidth;
+  shell.classList.add("has-panel");
+}
+
+function closeSidePanel() {
+  const shell = document.getElementById("navShellSistema");
+  if (!shell) return;
+  shell.classList.remove("has-panel");
+  shell.querySelectorAll(".nav-group-trigger").forEach(b => b.classList.remove("active"));
 }
 
 /* Gestão: sistema → loja */
@@ -518,11 +561,7 @@ function gVoltar() {
   document.getElementById("gStepSistema").style.display = "";
   document.getElementById("gStepCentral").style.display = "none";
   document.getElementById("gStepLoja").style.display = "none";
-  // fecha os accordions ao voltar
-  ["navGroupCentral", "navGroupMapas"].forEach(id => {
-    const g = document.getElementById(id);
-    if (g) { g.classList.remove("open"); const b = g.querySelector(".nav-group-trigger"); if (b) b.setAttribute("aria-expanded","false"); }
-  });
+  closeSidePanel();
 }
 function gEscolher(s) {
   document.getElementById("gStepSistema").style.display = "none";
