@@ -357,7 +357,7 @@ tbody tr:hover td { background: rgba(31,107,51,.05); }
 
     <div id="gStepSistema">
       <div class="section-title">Selecionar sistema</div>
-      <div class="nav-shell" id="navShellSistema">
+      <div class="nav-shell" id="navShellSistema" onmouseleave="closeSidePanel()">
         <div class="grid" id="navMainSistema">
           <button type="button" class="nav-group-trigger" data-panel="central" onclick="openSidePanel('central', this)">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
@@ -570,6 +570,9 @@ function gEscolher(s) {
   document.getElementById("gLojas").innerHTML = Object.keys(LOJAS).map(c =>
     '<button class="tile" onclick="abrir(\'' + s + '\',\'loja\',\'' + c + '\')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg></span><span><h4>' + LOJAS[c] + '</h4></span></button>').join("");
   document.getElementById("gStepLoja").style.display = "";
+  requestAnimationFrame(() => {
+    document.getElementById("gStepLoja").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 
 /* Abre o mapa dentro do Portal e entrega a sessão autenticada por canal seguro. */
