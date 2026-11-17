@@ -43,100 +43,99 @@ input[type="text"], input[type="password"] { width: 100%; padding: 11px 12px; fo
 .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .step { font-size: 12px; color: rgba(255,255,255,.7); padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); }
 .step.on { color: #fff; border-color: #c9a24a; background: rgba(201,162,74,.2); }
-/* ── Menu vidro com painel lateral ── */
+/* ── Menu vidro claro + painel lateral ── */
 .nav-shell {
   display: flex;
   align-items: stretch;
   gap: 0;
   width: 100%;
   max-width: 560px;
-  min-height: 200px;
+  min-height: 0;
 }
 
-/* Painel principal (vidro) */
+/* Painel principal — vidro claro e legível */
 .grid {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  width: 220px;
+  gap: 2px;
+  width: 230px;
   flex-shrink: 0;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.4);
+  background: rgba(255,255,255,.82);
+  border: 1px solid rgba(255,255,255,.75);
   border-radius: 16px;
   padding: 8px;
-  box-shadow: 0 8px 32px rgba(8,30,14,.16);
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: 0 10px 36px rgba(8,30,14,.2);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
   transition: border-radius .3s ease;
 }
 .nav-shell.has-panel .grid {
   border-radius: 16px 0 0 16px;
-  border-right: 1px solid rgba(255,255,255,.2);
+  border-right: 1px solid rgba(31,107,51,.1);
 }
 
 /* Item / trigger */
 .tile, .nav-group-trigger {
-  width: 100%; min-width: 0; min-height: 40px; padding: 9px 11px !important;
+  width: 100%; min-width: 0; min-height: 42px; padding: 10px 12px !important;
   text-align: left; cursor: pointer; font-family: inherit; display: flex;
   gap: 10px; align-items: center; border-radius: 10px;
   border: none; background: transparent;
-  transition: background .15s ease, color .15s ease;
+  transition: background .15s ease;
 }
 .tile .ico, .nav-group-trigger .ico {
   flex: 0 0 20px; width: 20px; height: 20px;
   display: flex; align-items: center; justify-content: center;
   color: #1f6b33;
 }
-.tile .ico svg, .nav-group-trigger .ico svg { width: 15px; height: 15px; }
+.tile .ico svg, .nav-group-trigger .ico svg { width: 16px; height: 16px; }
 .tile h4, .nav-group-trigger h4 {
-  margin: 0; font-size: 13px; line-height: 1.3; font-weight: 500; color: #17241a;
+  margin: 0; font-size: 13.5px; line-height: 1.3; font-weight: 550; color: #17241a;
 }
 .tile p, .nav-group-trigger p { display: none; }
-.tile:hover, .nav-group-trigger:hover { background: rgba(255,255,255,.35); }
+.tile:hover, .nav-group-trigger:hover { background: rgba(31,107,51,.08); }
 .nav-group-trigger.active {
-  background: rgba(255,255,255,.45);
-  box-shadow: 0 1px 4px rgba(8,30,14,.08);
+  background: rgba(31,107,51,.12);
 }
 .nav-group-trigger .txt { flex: 1; min-width: 0; }
 .nav-group-chevron {
-  flex: 0 0 16px; width: 16px; height: 16px;
+  flex: 0 0 18px; width: 18px; height: 18px;
   display: flex; align-items: center; justify-content: center;
-  color: #5a6b5e; opacity: .7;
+  color: #7a8b7e;
   transition: transform .25s ease, color .2s ease;
 }
-.nav-group-trigger.active .nav-group-chevron { color: #1f6b33; opacity: 1; }
-.nav-group-chevron svg { width: 13px; height: 13px; }
+.nav-group-trigger.active .nav-group-chevron { color: #1f6b33; transform: translateX(2px); }
+.nav-group-chevron svg { width: 14px; height: 14px; }
 
-/* Painel lateral (desliza da direita) */
+/* Painel lateral — desliza para a direita */
 .nav-side {
   width: 0;
   overflow: hidden;
   opacity: 0;
-  background: rgba(255,255,255,.2);
-  border: 1px solid rgba(255,255,255,.4);
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(255,255,255,.75);
   border-left: none;
   border-radius: 0 16px 16px 0;
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
-  box-shadow: 0 8px 32px rgba(8,30,14,.14);
-  transition: width .32s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .32s ease;
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: 0 10px 36px rgba(8,30,14,.18);
+  transition: width .3s cubic-bezier(.4,0,.2,1), opacity .22s ease, padding .3s ease;
   padding: 0;
   display: flex; flex-direction: column; gap: 2px;
 }
 .nav-shell.has-panel .nav-side {
-  width: 240px;
+  width: 250px;
   opacity: 1;
   padding: 8px;
 }
 
 .nav-side .side-title {
-  font-size: 11px; font-weight: 600; letter-spacing: .6px;
-  text-transform: uppercase; color: rgba(23,36,26,.55);
-  padding: 6px 11px 8px; margin: 0;
+  font-size: 11px; font-weight: 600; letter-spacing: .5px;
+  text-transform: uppercase; color: #7a8b7e;
+  padding: 6px 12px 8px; margin: 0;
 }
 .nav-side .tile {
-  min-height: 38px; opacity: 0; transform: translateX(12px);
-  transition: opacity .22s ease, transform .22s ease, background .15s ease;
+  min-height: 40px; opacity: 0; transform: translateX(10px);
+  transition: opacity .2s ease, transform .2s ease, background .15s ease;
 }
 .nav-shell.has-panel .nav-side .tile {
   opacity: 1; transform: translateX(0);
@@ -145,26 +144,26 @@ input[type="text"], input[type="password"] { width: 100%; padding: 11px 12px; fo
 .nav-shell.has-panel .nav-side .tile:nth-child(3) { transition-delay: .08s; }
 .nav-shell.has-panel .nav-side .tile:nth-child(4) { transition-delay: .12s; }
 .nav-side .tile .ico { color: #5a6b5e; }
+.nav-side .tile:hover { background: rgba(31,107,51,.08); }
 .nav-side .tile:hover .ico { color: #1f6b33; }
-.nav-side .tile h4 { font-size: 12.5px; color: #2a3a2e; }
+.nav-side .tile h4 { font-size: 13px; font-weight: 500; color: #2a3a2e; }
 .nav-side .tile:hover h4 { color: #17241a; }
 
 .nav-sep {
-  height: 1px; margin: 4px 6px;
+  height: 1px; margin: 4px 8px;
   background: rgba(31,107,51,.12);
 }
 
-/* Esconde o submenu antigo (não usado) */
 .nav-group { display: contents; }
 .nav-submenu { display: none !important; }
 
 @media (max-width: 640px) {
   .nav-shell { flex-direction: column; max-width: 100%; }
-  .grid { width: 100%; border-radius: 16px !important; border-right: 1px solid rgba(255,255,255,.35) !important; }
-  .nav-shell.has-panel .grid { border-radius: 16px 16px 0 0 !important; }
+  .grid { width: 100%; border-radius: 16px !important; }
+  .nav-shell.has-panel .grid { border-radius: 16px 16px 0 0 !important; border-right: 1px solid rgba(255,255,255,.75) !important; }
   .nav-side {
     width: 100% !important; max-height: 0; border-radius: 0 0 16px 16px !important;
-    border-left: 1px solid rgba(255,255,255,.35); border-top: none;
+    border-left: 1px solid rgba(255,255,255,.75); border-top: none;
   }
   .nav-shell.has-panel .nav-side {
     max-height: 280px; width: 100% !important;
@@ -358,14 +357,14 @@ tbody tr:hover td { background: rgba(31,107,51,.05); }
 
     <div id="gStepSistema">
       <div class="section-title">Selecionar sistema</div>
-      <div class="nav-shell" id="navShellSistema" onmouseleave="closeSidePanel()">
+      <div class="nav-shell" id="navShellSistema">
         <div class="grid" id="navMainSistema">
-          <button type="button" class="nav-group-trigger" data-panel="central" onmouseenter="openSidePanel('central', this)" onfocus="openSidePanel('central', this)" onclick="if (window.matchMedia('(hover: none)').matches) openSidePanel('central', this)">
+          <button type="button" class="nav-group-trigger" data-panel="central" onclick="openSidePanel('central', this)">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
             <span class="txt"><h4>Central / Compras</h4></span>
             <span class="nav-group-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
           </button>
-          <button type="button" class="nav-group-trigger" data-panel="mapas" onmouseenter="openSidePanel('mapas', this)" onfocus="openSidePanel('mapas', this)" onclick="if (window.matchMedia('(hover: none)').matches) openSidePanel('mapas', this)">
+          <button type="button" class="nav-group-trigger" data-panel="mapas" onclick="openSidePanel('mapas', this)">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span>
             <span class="txt"><h4>Mapas por loja</h4></span>
             <span class="nav-group-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
@@ -571,9 +570,6 @@ function gEscolher(s) {
   document.getElementById("gLojas").innerHTML = Object.keys(LOJAS).map(c =>
     '<button class="tile" onclick="abrir(\'' + s + '\',\'loja\',\'' + c + '\')"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg></span><span><h4>' + LOJAS[c] + '</h4></span></button>').join("");
   document.getElementById("gStepLoja").style.display = "";
-  requestAnimationFrame(() => {
-    document.getElementById("gStepLoja").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
 }
 
 /* Abre o mapa dentro do Portal e entrega a sessão autenticada por canal seguro. */
